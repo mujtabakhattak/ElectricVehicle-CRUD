@@ -1,0 +1,170 @@
+﻿@model List<Product>
+@{
+}
+
+<html lang="en">
+<head>
+    <title>List of Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            font-size: 16px;
+            color: #333;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: #28282B;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        img {
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .edit-btn {
+            background: green;
+        }
+        
+        .delete-btn {
+            background: #f44336;
+        }
+
+        .actions a {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .create-btn {
+            display: flex;
+            width: 60px;
+            height: 60px;
+            align-items: center;
+            justify-content: center;
+            float: right;
+            margin-bottom: 0.9rem;
+            background: #0a58ca;
+        }
+    </style>
+</head>
+<body>
+<script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tableRows = document.querySelectorAll("table tbody tr");
+        const tableContainer = document.querySelector('.table-container');
+        const createBtn = document.querySelector('.create-btn');
+
+        tableRows.forEach((row, index) => {
+            // Select the first cell (ID column) of the current row
+            const idCell = row.querySelector("td:first-child");
+            if (idCell) {
+                idCell.textContent = index + 1; // Update the ID to be consecutive
+            }
+        });
+
+        // Check if rows are 6 or more and apply scroll if needed
+        if (tableRows.length >= 6) {
+            tableContainer.style.maxHeight = "500px";
+            tableContainer.style.overflowY = "scroll";
+            createBtn.style.float = "none";
+            createBtn.style.position = "absolute";
+            createBtn.style.right = "75px";
+        }
+    });
+
+</script>
+
+<h1>List of Vehicles</h1>
+<a asp-controller="Products" asp-action="Create" class="btn btn-primary rounded-circle create-btn align-items-center"><i class="fas fa-plus fa-2x"></i></a>
+<div class="table-container">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var vehicle in Model)
+        {
+            <tr>
+                <td>@vehicle.ProductId</td>
+                <td>@vehicle.Name</td>
+                <td>
+                    <img src="/products/@vehicle.Images" alt="Vehicle Image" width="100px">
+                </td>
+                <td class="actions">
+                    <a class="btn btn-sm edit-btn" asp-controller="Products" asp-action="Edit" asp-route-id="@vehicle.ProductId"><i class="far fa-edit"></i></a>
+                    <a class="btn btn-sm delete-btn" asp-controller="Products" asp-action="Delete" asp-route-id="@vehicle.ProductId"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

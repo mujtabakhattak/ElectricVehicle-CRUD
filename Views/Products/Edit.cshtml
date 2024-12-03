@@ -1,0 +1,131 @@
+﻿@model ProductDto
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Product</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            font-size: 16px;
+            color: #333;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        input[readonly] {
+            background-color: #f0f0f0;
+        }
+
+        .image-preview {
+            width: 100%;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .cancel-btn {
+            background-color: #f44336;
+            margin-left: 1rem;
+        }
+
+        .cancel-btn:hover {
+            background-color: #e53935;
+        }
+
+        span {
+            color: red;
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>Edit Vehicle</h1>
+<form method="post" enctype="multipart/form-data">
+    <label for="ProductId">Vehicle ID</label>
+    <input id="ProductId" name="ProductId" readonly value="@ViewData["ProductId"]" />
+
+    <label for="Name">Name</label>
+    <input asp-for="Name" id="Name" />
+    <span asp-validation-for="Name"></span>
+
+    <div class="image-preview">
+        <img src="/products/@ViewData["Images"]" alt="Product Image">
+    </div>
+
+    <label for="Image">Change Image</label>
+    <input asp-for="Image" type="file" id="Image" />
+    <span asp-validation-for="Image"></span>
+
+    <button type="submit" class="btn">Submit</button>
+    <a asp-controller="Products" asp-action="Index" class="btn cancel-btn">Cancel</a>
+</form>
+
+</body>
+</html>
